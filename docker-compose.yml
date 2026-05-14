@@ -1,0 +1,43 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: contract_flow_app
+    working_dir: /app
+    environment:
+      WEB_DOCUMENT_ROOT: /app/public
+    volumes:
+      - ./:/app
+    ports:
+      - "8000:80"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: contract_flow_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: contract_flow
+      POSTGRES_USER: laravel
+      POSTGRES_PASSWORD: laravel
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: contract_flow_pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
