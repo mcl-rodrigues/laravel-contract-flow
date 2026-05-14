@@ -12,7 +12,7 @@ class ServicoController extends Controller
      */
     public function index()
     {
-        $servicos = Servico::paginate(10);
+        $servicos = Servico::orderBy('id', 'asc')->paginate(10);
 
         return view('servicos.index', compact('servicos'));
     }
@@ -22,7 +22,7 @@ class ServicoController extends Controller
      */
     public function create()
     {
-        //
+        return view('servicos.create');
     }
 
     /**
@@ -30,7 +30,26 @@ class ServicoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nome' => ['required', 'string', 'min:3', 'max:50'],
+            'valor_base' => 'required|numeric',
+        ], [
+            // nome
+            'nome.required' => 'O nome do serviço é obrigatório.',
+            'nome.string' => 'O nome do serviço deve ser um texto válido.',
+            'nome.min' => 'O nome do serviço não pode ter menos de 3 caracteres.',
+            'nome.max' => 'O nome do serviço não pode ter mais de 50 caracteres.',
+
+            // valor base
+            'valor_base.required' => 'O valor base é obrigatório.',
+            'valor_base.numeric' => 'O valor base deve ser numérico.',
+        ]);
+
+        Servico::create($validated);
+
+        return redirect()
+            ->route('servicos.index')
+            ->with('success', 'Serviço cadastrado com sucesso!');
     }
 
     /**
@@ -46,7 +65,7 @@ class ServicoController extends Controller
      */
     public function edit(Servico $servico)
     {
-        //
+        return view('servicos.edit', compact('servico'));
     }
 
     /**
@@ -54,14 +73,51 @@ class ServicoController extends Controller
      */
     public function update(Request $request, Servico $servico)
     {
-        //
+        $validated = $request->validate([
+            'nome' => ['required', 'string', 'min:3', 'max:50'],
+            'valor_base' => 'required|numeric',
+        ], [
+            // nome
+            'nome.required' => 'O nome do serviço é obrigatório.',
+            'nome.string' => 'O nome do serviço deve ser um texto válido.',
+            'nome.min' => 'O nome do serviço não pode ter menos de 3 caracteres.',
+            'nome.max' => 'O nome do serviço não pode ter mais de 50 caracteres.',
+
+            // valor base
+            'valor_base.required' => 'O valor base é obrigatório.',
+            'valor_base.numeric' => 'O valor base deve ser numérico.',
+        ]);
+
+        $servico->update($validated);
+
+        return redirect()
+            ->route('servicos.index')
+            ->with('success', 'Serviço atualizado com sucesso!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Servico $servico)
+    public function destroy($id)
     {
-        //
+        $servico = Servico::find($id);
+
+        if (!$servico) {
+            return redirect()
+                ->route('servicos.index')
+                ->with('error', 'Serviço não encontrado.');
+        }
+
+        if ($servico->itensContrato()->exists()) {
+            return redirect()
+                ->route('servicos.index')
+                ->with('error', 'Não é possível excluir este serviço pois ele está vinculado a contratos.');
+        }
+
+        $servico->delete();
+
+        return redirect()
+            ->route('servicos.index')
+            ->with('success', 'Serviço excluído com sucesso!');
     }
 }

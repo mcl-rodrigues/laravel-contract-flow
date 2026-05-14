@@ -4,12 +4,13 @@
     <div class="space-y-6">
         <div class="flex items-center justify-between">
             <h1 class="text-3xl font-bold">
-                Novo Serviço
+                Editar Serviço
             </h1>
         </div>
         <div class="rounded-lg bg-white p-6 shadow">
-            <form action="{{ route('servicos.store') }}" method="POST" class="space-y-6">
+            <form action="{{ route('servicos.update', $servico->id) }}" method="POST" class="space-y-6">
                 @csrf
+                @method('PUT')
                 <div>
                     <label class="mb-1 block text-sm font-medium text-gray-700">
                         Nome
@@ -17,7 +18,7 @@
                     <input
                         type="text"
                         name="nome"
-                        value="{{ old('nome') }}"
+                        value="{{ old('nome', $servico->nome) }}"
                         required
                         minlength="3"
                         maxlength="50"
@@ -37,7 +38,7 @@
                     <input
                         type="number"
                         name="valor_base"
-                        value="{{ old('valor_base') }}"
+                        value="{{ old('valor_base', $servico->valor_base) }}"
                         required
                         min="0"
                         max="9999"
@@ -61,7 +62,7 @@
                         type="submit"
                         class="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
                     >
-                        Salvar
+                        Atualizar
                     </button>
                 </div>
             </form>

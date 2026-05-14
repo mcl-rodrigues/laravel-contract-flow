@@ -39,6 +39,7 @@ class ClienteController extends Controller
             // nome
             'nome.required' => 'O nome é obrigatório.',
             'nome.string' => 'O nome deve ser um texto válido.',
+            'nome.min' => 'O nome não pode ter menos de 3 caracteres.',
             'nome.max' => 'O nome não pode ter mais de 50 caracteres.',
 
             // documento
@@ -61,7 +62,7 @@ class ClienteController extends Controller
 
         return redirect()
             ->route('clientes.index')
-            ->with('success', 'Cliente criado com sucesso!');
+            ->with('success', 'Cliente cadastrado com sucesso!');
     }
 
     /**

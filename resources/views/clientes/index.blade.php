@@ -105,7 +105,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="px-6 py-6 text-center text-gray-500">
+                            <td colspan="7" class="px-6 py-6 text-center text-gray-500">
                                 Sem clientes cadastrados.
                             </td>
                         </tr>
