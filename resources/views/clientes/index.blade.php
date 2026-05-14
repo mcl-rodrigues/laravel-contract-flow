@@ -16,6 +16,11 @@
                     {{ session('success') }}
                 </div>
             @endif
+            @if (session('error'))
+                <div class="rounded bg-red-100 px-4 py-3 text-red-800">
+                    {{ session('error') }}
+                </div>
+            @endif
             <table class="min-w-full [&_tbody_tr:hover]:bg-gray-50">
                 <thead class="bg-gray-100">
                     <tr>
@@ -89,11 +94,13 @@
                                     >
                                         Editar
                                     </a>
-                                    <button
-                                        class="rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700"
-                                    >
-                                        Excluir
-                                    </button>
+                                    <form action="{{ route('clientes.destroy', $cliente->id) }}" method="POST" onsubmit="return confirm('Tem certeza?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700">
+                                            Excluir
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
