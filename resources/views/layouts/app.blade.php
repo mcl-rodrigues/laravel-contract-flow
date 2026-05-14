@@ -9,10 +9,18 @@
     <body class="bg-gray-100">
         <nav class="bg-gray-800 text-white px-6 py-4">
             <div class="max-w-7xl mx-auto flex gap-6">
-                <a href="/">Dashboard</a>
-                <a href="/contratos">Contratos</a>
-                <a href="/servicos">Serviços</a>
-                <a href="/clientes">Clientes</a>
+                <a href="/" class="{{ request()->is('/') ? 'text-yellow-400 font-semibold' : '' }}">
+                    Dashboard
+                </a>
+                <a href="{{ route('clientes.index') }}" class="{{ request()->routeIs('clientes.*') ? 'text-yellow-400 font-semibold' : '' }}">
+                    Clientes
+                </a>
+                <a href="{{ route('servicos.index') }}" class="{{ request()->routeIs('servicos.*') ? 'text-yellow-400 font-semibold' : '' }}">
+                    Serviços
+                </a>
+                <a href="{{ route('contratos.index') }}" class="{{ request()->routeIs('contratos.*') ? 'text-yellow-400 font-semibold' : '' }}">
+                    Contratos
+                </a>
             </div>
         </nav>
         <main class="max-w-7xl mx-auto p-6">

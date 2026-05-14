@@ -12,7 +12,9 @@ class ServicoController extends Controller
      */
     public function index()
     {
-        //
+        $servicos = Servico::paginate(10);
+
+        return view('servicos.index', compact('servicos'));
     }
 
     /**
