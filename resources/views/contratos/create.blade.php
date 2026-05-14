@@ -18,7 +18,7 @@
                         name="cliente"
                         required
                         class="w-full rounded border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none
-                        {{ $errors->has('cliente') ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500' }}"
+                        {{ $errors->has('cliente') ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-500' }}"
                     >
                         <option value="">
                             Selecione um cliente
@@ -45,7 +45,7 @@
                         value="{{ old('data_inicio') }}"
                         required
                         class="w-full rounded border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none
-                        {{ $errors->has('data_inicio') ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500' }}"
+                        {{ $errors->has('data_inicio') ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-500' }}"
                     >
                     @error('data_inicio')
                         <div class="mt-1 text-sm text-red-600">
@@ -62,7 +62,7 @@
                         name="data_fim"
                         value="{{ old('data_fim') }}"
                         class="w-full rounded border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none
-                        {{ $errors->has('data_fim') ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500' }}"
+                        {{ $errors->has('data_fim') ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-500' }}"
                     >
                     @error('data_fim')
                         <div class="mt-1 text-sm text-red-600">
@@ -77,7 +77,7 @@
                     <select
                         name="status"
                         class="w-full rounded border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none
-                        {{ $errors->has('status') ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500' }}"
+                        {{ $errors->has('status') ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-500' }}"
                     >
                         <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>
                             Ativo

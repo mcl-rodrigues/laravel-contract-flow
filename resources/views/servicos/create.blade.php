@@ -22,7 +22,7 @@
                         minlength="3"
                         maxlength="50"
                         class="w-full rounded border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none
-                        {{ $errors->has('nome') ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500' }}"
+                        {{ $errors->has('nome') ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-500' }}"
                     >
                     @error('nome')
                         <div class="mt-1 text-sm text-red-600">
@@ -42,7 +42,7 @@
                         min="0"
                         max="9999"
                         class="w-full rounded border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none
-                        {{ $errors->has('valor_base') ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500' }}"
+                        {{ $errors->has('valor_base') ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-500' }}"
                     >
                     @error('valor_base')
                         <div class="mt-1 text-sm text-red-600">

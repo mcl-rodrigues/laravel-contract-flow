@@ -23,7 +23,7 @@
                         minlength="3"
                         maxlength="50"
                         class="w-full rounded border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none
-                        {{ $errors->has('nome') ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500' }}"
+                        {{ $errors->has('nome') ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-500' }}"
                     >
                     @error('nome')
                         <div class="mt-1 text-sm text-red-600">
@@ -43,7 +43,7 @@
                         minlength="11"
                         maxlength="14"
                         class="w-full rounded border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none
-                        {{ $errors->has('documento') ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500' }}"
+                        {{ $errors->has('documento') ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-500' }}"
                     >
                     @error('documento')
                         <div class="mt-1 text-sm text-red-600">
@@ -62,7 +62,7 @@
                         required
                         maxlength="50"
                         class="w-full rounded border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none
-                        {{ $errors->has('email') ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500' }}"
+                        {{ $errors->has('email') ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-500' }}"
                     >
                     @error('email')
                         <div class="mt-1 text-sm text-red-600">
@@ -77,7 +77,7 @@
                     <select
                         name="status"
                         class="w-full rounded border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none
-                        {{ $errors->has('status') ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500' }}"
+                        {{ $errors->has('status') ? 'border-red-500 focus:border-red-500' : 'focus:border-blue-500' }}"
                     >
                         <option value="1" {{ old('status', $cliente->status) == '1' ? 'selected' : '' }}>
                             Ativo
