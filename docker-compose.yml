@@ -20,8 +20,8 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_DB: contract_flow
-      POSTGRES_USER: laravel
-      POSTGRES_PASSWORD: laravel
+      POSTGRES_USER: admin-sistema-contrato
+      POSTGRES_PASSWORD: admin123
     ports:
       - "5432:5432"
     volumes:
