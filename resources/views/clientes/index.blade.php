@@ -6,11 +6,16 @@
             <h1 class="text-3xl font-bold">
                 Clientes
             </h1>
-            <a href="{{ '#' }}" class="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
+            <a href="{{ route('clientes.create') }}" class="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
                 Novo Cliente
             </a>
         </div>
         <div class="overflow-hidden rounded-lg bg-white shadow">
+            @if (session('success'))
+                <div class="rounded bg-green-100 px-4 py-3 text-green-800">
+                    {{ session('success') }}
+                </div>
+            @endif
             <table class="min-w-full [&_tbody_tr:hover]:bg-gray-50">
                 <thead class="bg-gray-100">
                     <tr>
@@ -47,7 +52,17 @@
                                 {{ $cliente->nome }}
                             </td>
                             <td class="px-6 py-4 font-medium text-gray-900">
-                                {{ strlen($cliente->documento) === 11 ? 'PF' : 'PJ' }}
+                                @php
+                                    $documento = preg_replace('/\D/', '', $cliente->documento);
+                                @endphp
+
+                                @if (strlen($documento) === 11)
+                                    PF
+                                @elseif (strlen($documento) === 14)
+                                    PJ
+                                @else
+                                    Não identificado
+                                @endif
                             </td>
                             <td class="px-6 py-4 font-medium text-gray-900">
                                 {{ $cliente->documento }}
