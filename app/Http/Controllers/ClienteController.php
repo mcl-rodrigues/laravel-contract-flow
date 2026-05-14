@@ -12,7 +12,7 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $clientes = Cliente::paginate(10);
+        $clientes = Cliente::orderBy('id', 'asc')->paginate(10);
 
         return view('clientes.index', compact('clientes'));
     }
@@ -77,7 +77,7 @@ class ClienteController extends Controller
      */
     public function edit(Cliente $cliente)
     {
-        //
+        return view('clientes.edit', compact('cliente'));
     }
 
     /**
@@ -85,7 +85,34 @@ class ClienteController extends Controller
      */
     public function update(Request $request, Cliente $cliente)
     {
-        //
+        $validated = $request->validate([
+            'nome' => ['required', 'string', 'min:3', 'max:50'],
+            'documento' => ['required', 'regex:/^(\d{11}|\d{14})$/', 'unique:clientes,documento,' . $cliente->id],
+            'email' => ['required', 'email', 'max:50', 'unique:clientes,email,' . $cliente->id],
+            'status' => ['required', 'in:0,1'],
+        ], [
+            'nome.required' => 'O nome é obrigatório.',
+            'nome.string' => 'O nome deve ser um texto válido.',
+            'nome.max' => 'O nome não pode ter mais de 50 caracteres.',
+
+            'documento.required' => 'O documento é obrigatório.',
+            'documento.regex' => 'O documento deve conter 11 dígitos (CPF) ou 14 dígitos (CNPJ).',
+            'documento.unique' => 'Este documento já está cadastrado.',
+
+            'email.required' => 'O e-mail é obrigatório.',
+            'email.email' => 'Informe um e-mail válido.',
+            'email.max' => 'O e-mail não pode ter mais de 50 caracteres.',
+            'email.unique' => 'Este e-mail já está cadastrado.',
+
+            'status.required' => 'O status é obrigatório.',
+            'status.in' => 'Status inválido. Escolha Ativo ou Inativo.',
+        ]);
+
+        $cliente->update($validated);
+
+        return redirect()
+            ->route('clientes.index')
+            ->with('success', 'Cliente atualizado com sucesso!');
     }
 
     /**

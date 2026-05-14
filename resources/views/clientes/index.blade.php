@@ -60,7 +60,6 @@
                                 @php
                                     $documento = preg_replace('/\D/', '', $cliente->documento);
                                 @endphp
-
                                 @if (strlen($documento) === 11)
                                     PF
                                 @elseif (strlen($documento) === 14)
@@ -89,7 +88,7 @@
                             <td class="px-6 py-4 text-right">
                                 <div class="flex justify-end gap-2">
                                     <a
-                                        href="#"
+                                        href="{{ route('clientes.edit', $cliente->id) }}"
                                         class="rounded bg-yellow-500 px-3 py-1 text-sm text-white hover:bg-yellow-600"
                                     >
                                         Editar
