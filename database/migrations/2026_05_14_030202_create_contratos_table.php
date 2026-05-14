@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->foreignId('cliente_id')->constrained('clientes')->cascadeOnDelete();
             $table->date('data_inicio');
             $table->date('data_fim')->nullable();
-            $table->string('status');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
