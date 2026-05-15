@@ -58,6 +58,9 @@ const handleSubmit = async () => {
         if (response.status === 422 && data?.errors) {
             errors.value = data.errors
         }
+        if (response.status === 403 && data?.message) {
+            alert(data.message)
+        }
     }
 }
 

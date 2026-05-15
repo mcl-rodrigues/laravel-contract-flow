@@ -102,12 +102,14 @@
                                             Expandir
                                         </span>
                                     </button>
-                                    <a
-                                        href="{{ route('contratos.edit', $contrato->id) }}"
-                                        class="rounded bg-yellow-500 px-3 py-1 text-sm text-white hover:bg-yellow-600"
-                                    >
-                                        Editar
-                                    </a>
+                                    @if ($contrato->status)
+                                        <a
+                                            href="{{ route('contratos.edit', $contrato->id) }}"
+                                            class="rounded bg-yellow-500 px-3 py-1 text-sm text-white hover:bg-yellow-600"
+                                        >
+                                            Editar
+                                        </a>
+                                    @endif
                                     <form action="{{ route('contratos.destroy', $contrato->id) }}" method="POST" onsubmit="return confirm('Tem certeza?')">
                                         @csrf
                                         @method('DELETE')

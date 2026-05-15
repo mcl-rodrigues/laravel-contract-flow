@@ -132,6 +132,12 @@ class ContratoController extends Controller
      */
     public function update(Request $request, Contrato $contrato, ContratoService $contratoService)
     {
+        if (!$contrato->status) {
+            return response()->json([
+                'message' => 'Contratos cancelados não podem ser editados.'
+            ], 403);
+        }
+
         $validated = $request->validate([
             'cliente' => ['required', 'exists:clientes,id'],
             'data_inicio' => ['required', 'date'],
