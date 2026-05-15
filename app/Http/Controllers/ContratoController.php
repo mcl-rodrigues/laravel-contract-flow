@@ -116,19 +116,45 @@ class ContratoController extends Controller
      */
     public function edit(Contrato $contrato)
     {
-        return view('contratos.edit', compact('contrato'));
+        $contrato->load('itens');
+
+        return view('contratos.edit', [
+            'contrato' => $contrato,
+            'clientes' => Cliente::all(),
+            'servicos' => Servico::all()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Contrato $contrato)
+    public function update(Request $request, Contrato $contrato, ContratoService $contratoService)
     {
         $validated = $request->validate([
+            'cliente' => ['required', 'exists:clientes,id'],
             'data_inicio' => ['required', 'date'],
             'data_fim' => ['nullable', 'date', 'after_or_equal:data_inicio'],
             'status' => ['required', 'in:0,1'],
+            'itens' => ['required', 'array', 'min:1'],
+            'itens.*.servico_id' => [
+                'required',
+                'exists:servicos,id'
+            ],
+            'itens.*.quantidade' => [
+                'required',
+                'integer',
+                'min:1'
+            ],
+            'itens.*.valor' => [
+                'required',
+                'numeric',
+                'min:0'
+            ],
         ], [
+            // cliente
+            'cliente.required' => 'O cliente é obrigatório.',
+            'cliente.exists' => 'O cliente selecionado é inválido.',
+
             // data_inicio
             'data_inicio.required' => 'A data de início é obrigatória.',
             'data_inicio.date' => 'Informe uma data de início válida.',
@@ -140,9 +166,28 @@ class ContratoController extends Controller
             // status
             'status.required' => 'O status é obrigatório.',
             'status.in' => 'Status inválido. Escolha Ativo ou Inativo.',
+
+            // itens
+            'itens.required' => 'Adicione pelo menos um serviço ao contrato.',
+            'itens.array' => 'Os serviços enviados são inválidos.',
+            'itens.min' => 'Adicione pelo menos um serviço ao contrato.',
+
+            // itens.serviço
+            'itens.*.servico_id.required' => 'Selecione um serviço.',
+            'itens.*.servico_id.exists' => 'O serviço selecionado é inválido.',
+
+            // itens.quantidade
+            'itens.*.quantidade.required' => 'Informe a quantidade.',
+            'itens.*.quantidade.integer' => 'A quantidade deve ser um número inteiro.',
+            'itens.*.quantidade.min' => 'A quantidade deve ser no mínimo 1.',
+
+            // itens.valor
+            'itens.*.valor.required' => 'Informe o valor unitário.',
+            'itens.*.valor.numeric' => 'O valor unitário deve ser numérico.',
+            'itens.*.valor.min' => 'O valor unitário não pode ser negativo.',
         ]);
 
-        $contrato->update($validated);
+        $contratoService->update($contrato, $validated);
 
         return redirect()
             ->route('contratos.index')

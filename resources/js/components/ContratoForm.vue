@@ -5,6 +5,10 @@ const props = defineProps({
     clientes: Array,
     servicos: Array,
     action: String,
+    contrato: {
+        type: Object,
+        default: null
+    }
 })
 
 const csrf = computed(() =>
@@ -15,11 +19,16 @@ const isSaving = ref(false)
 const errors = ref({})
 
 const form = reactive({
-    cliente: '',
-    data_inicio: '',
-    data_fim: '',
-    status: 1,
-    itens: []
+    cliente: props.contrato?.cliente_id ?? '',
+    data_inicio: props.contrato?.data_inicio ?? '',
+    data_fim: props.contrato?.data_fim ?? '',
+    status: props.contrato?.status ?? 1,
+
+    itens: props.contrato?.itens?.map(item => ({
+        servico_id: item.servico_id,
+        quantidade: item.quantidade,
+        valor: item.valor
+    })) ?? []
 })
 
 const handleSubmit = async () => {
@@ -33,7 +42,10 @@ const handleSubmit = async () => {
             'Accept': 'application/json',
             'X-CSRF-TOKEN': csrf.value
         },
-        body: JSON.stringify(form)
+        body: JSON.stringify({
+            ...form,
+            _method: props.contrato ? 'PUT' : 'POST'
+        })
     })
 
     if (response.ok) {
@@ -267,10 +279,10 @@ const atualizarValor = (item) => {
                         <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25" />
                         <path fill="currentColor" class="opacity-75" d="M4 12a8 8 0 018-8v8H4z" />
                     </svg>
-                    Salvando...
+                    {{ props.contrato ? 'Atualizando' : 'Salvando...' }}
                 </template>
                 <template v-else>
-                    Salvar
+                    {{ props.contrato ? 'Atualizar' : 'Salvar' }}
                 </template>
             </button>
         </div>
