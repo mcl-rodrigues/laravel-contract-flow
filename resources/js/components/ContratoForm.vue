@@ -22,7 +22,7 @@ const form = reactive({
     cliente: props.contrato?.cliente_id ?? '',
     data_inicio: props.contrato?.data_inicio ?? '',
     data_fim: props.contrato?.data_fim ?? '',
-    status: props.contrato?.status ?? 1,
+    status: props.contrato ? Number(props.contrato.status) : 1,
 
     itens: props.contrato?.itens?.map(item => ({
         servico_id: item.servico_id,
@@ -154,8 +154,8 @@ const atualizarValor = (item) => {
                 class="w-full rounded border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
                 :class="{'border-red-500 focus:border-red-500': errors.status}"
             >
-                <option value="1">Ativo</option>
-                <option value="0">Inativo</option>
+                <option :value="1">Ativo</option>
+                <option :value="0">Inativo</option>
             </select>
             <div
                 v-if="errors.status"

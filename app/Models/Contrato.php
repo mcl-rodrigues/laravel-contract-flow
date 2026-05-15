@@ -26,4 +26,11 @@ class Contrato extends Model
     {
         return $this->hasMany(ContratoItem::class);
     }
+
+    public function getValorTotalAttribute()
+    {
+        return $this->itens->sum(function ($item) {
+            return $item->quantidade * $item->valor;
+        });
+    }
 }

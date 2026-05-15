@@ -39,6 +39,9 @@
                         <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
                             Status
                         </th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                            Valor Total
+                        </th>
                         <th class="px-6 py-4 text-right text-sm font-semibold text-gray-700">
                             Ações
                         </th>
@@ -69,6 +72,9 @@
                                         Inativo
                                     </span>
                                 @endif
+                            </td>
+                            <td class="px-6 py-4 font-medium text-gray-900">
+                                R$ {{ number_format($contrato->valor_total, 2, ',', '.') }}
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <div class="flex justify-end gap-2">
