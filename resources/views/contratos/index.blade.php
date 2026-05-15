@@ -78,6 +78,30 @@
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <div class="flex justify-end gap-2">
+                                    <button
+                                        type="button"
+                                        onclick="
+                                            const content = document.getElementById('content-{{ $contrato->id }}');
+                                            const text = document.getElementById('toggle-text-{{ $contrato->id }}');
+
+                                            if (content.classList.contains('max-h-0')) {
+                                                content.classList.remove('max-h-0');
+                                                content.classList.add('max-h-[500px]');
+
+                                                text.innerText = 'Recolher';
+                                            } else {
+                                                content.classList.remove('max-h-[500px]');
+                                                content.classList.add('max-h-0');
+
+                                                text.innerText = 'Expandir';
+                                            }
+                                        "
+                                        class="rounded bg-gray-600 px-3 py-1 text-sm text-white hover:bg-gray-700"
+                                    >
+                                        <span id="toggle-text-{{ $contrato->id }}">
+                                            Expandir
+                                        </span>
+                                    </button>
                                     <a
                                         href="{{ route('contratos.edit', $contrato->id) }}"
                                         class="rounded bg-yellow-500 px-3 py-1 text-sm text-white hover:bg-yellow-600"
@@ -91,6 +115,49 @@
                                             Excluir
                                         </button>
                                     </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="itens-{{ $contrato->id }}" class="bg-gray-50">
+                            <td colspan="7" class="p-0 border-0">
+                                <div
+                                    id="content-{{ $contrato->id }}"
+                                    class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out"
+                                >
+                                    <div class="px-6 py-4">
+                                        <table class="min-w-full text-sm">
+                                            <thead>
+                                                <tr class="text-left text-gray-600">
+                                                    <th class="pb-2">Serviço</th>
+                                                    <th class="pb-2">Quantidade</th>
+                                                    <th class="pb-2">Valor Unitário</th>
+                                                    <th class="pb-2">Subtotal</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                @foreach ($contrato->itens as $item)
+                                                    <tr class="border-t">
+                                                        <td class="py-2">
+                                                            {{ $item->servico->nome }}
+                                                        </td>
+
+                                                        <td class="py-2">
+                                                            {{ $item->quantidade }}
+                                                        </td>
+
+                                                        <td class="py-2">
+                                                            R$ {{ number_format($item->valor, 2, ',', '.') }}
+                                                        </td>
+
+                                                        <td class="py-2">
+                                                            R$ {{ number_format($item->quantidade * $item->valor, 2, ',', '.') }}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </td>
                         </tr>

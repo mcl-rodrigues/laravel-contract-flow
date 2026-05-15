@@ -15,7 +15,7 @@ class ContratoController extends Controller
      */
     public function index()
     {
-        $contratos = Contrato::with(['cliente', 'itens'])
+        $contratos = Contrato::with(['cliente', 'itens.servico'])
             ->orderBy('id', 'asc')
             ->paginate(10);
 
