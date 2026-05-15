@@ -32,7 +32,7 @@ class Contrato extends Model
     public function calcularSubtotal()
     {
         return $this->itens->sum(function ($item) {
-            return $item->quantidade * $item->valor;
+            return $item->quantidade * $item->valor_unitario;
         });
     }
 

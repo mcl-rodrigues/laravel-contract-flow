@@ -27,7 +27,7 @@ const form = reactive({
     itens: props.contrato?.itens?.map(item => ({
         servico_id: item.servico_id,
         quantidade: item.quantidade,
-        valor: item.valor
+        valor_unitario: item.valor_unitario
     })) ?? []
 })
 
@@ -68,7 +68,7 @@ const adicionarItem = () => {
     form.itens.push({
         servico_id: '',
         quantidade: 1,
-        valor: ''
+        valor_unitario: ''
     })
 }
 
@@ -82,7 +82,7 @@ const atualizarValor = (item) => {
     )
 
     if (servicoSelecionado) {
-        item.valor = servicoSelecionado.valor_base
+        item.valor_unitario = servicoSelecionado.valor_base
     }
 }
 </script>
@@ -136,7 +136,7 @@ const atualizarValor = (item) => {
                 v-if="errors.data_inicio"
                 class="mt-1 text-sm text-red-600"
             >
-                O cliente é obrigatório.
+                A data de início é obrigatório.
             </div>
         </div>
         <div>
@@ -167,7 +167,7 @@ const atualizarValor = (item) => {
                 v-if="errors.status"
                 class="mt-1 text-sm text-red-600"
             >
-                O cliente é obrigatório.
+                O status é obrigatório.
             </div>
         </div>
         <!-- ITEM DO CONTRATO -->
@@ -238,20 +238,20 @@ const atualizarValor = (item) => {
                     {{ errors[`itens.${index}.quantidade`][0] }}
                 </div>
                 <label class="mb-1 block text-sm font-medium text-gray-700">
-                    Valor
+                    Valor unitário
                 </label>
                 <input
-                    v-model="item.valor"
+                    v-model="item.valor_unitario"
                     type="number"
                     min="0"
                     class="w-full rounded border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
-                    :class="{'border-red-500': errors[`itens.${index}.valor`]}"
+                    :class="{'border-red-500': errors[`itens.${index}.valor_unitario`]}"
                 />
                 <div
-                    v-if="errors[`itens.${index}.valor`]"
+                    v-if="errors[`itens.${index}.valor_unitario`]"
                     class="mt-1 text-sm text-red-600"
                 >
-                    {{ errors[`itens.${index}.valor`][0] }}
+                    {{ errors[`itens.${index}.valor_unitario`][0] }}
                 </div>
                 <button
                     type="button"

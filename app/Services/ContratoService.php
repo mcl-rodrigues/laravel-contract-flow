@@ -22,7 +22,7 @@ class ContratoService
                 $contrato->itens()->create([
                     'servico_id' => $item['servico_id'],
                     'quantidade' => $item['quantidade'],
-                    'valor' => $item['valor']
+                    'valor_unitario' => $item['valor_unitario']
                 ]);
             }
 
@@ -48,7 +48,7 @@ class ContratoService
                 $contrato->itens()->create([
                     'servico_id' => $item['servico_id'],
                     'quantidade' => $item['quantidade'],
-                    'valor' => $item['valor']
+                    'valor_unitario' => $item['valor_unitario']
                 ]);
             }
 

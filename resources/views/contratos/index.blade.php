@@ -154,11 +154,11 @@
                                                         </td>
 
                                                         <td class="py-2">
-                                                            R$ {{ number_format($item->valor, 2, ',', '.') }}
+                                                            R$ {{ number_format($item->valor_unitario, 2, ',', '.') }}
                                                         </td>
 
                                                         <td class="py-2">
-                                                            R$ {{ number_format($item->quantidade * $item->valor, 2, ',', '.') }}
+                                                            R$ {{ number_format($item->quantidade * $item->valor_unitario, 2, ',', '.') }}
                                                         </td>
                                                     </tr>
                                                 @endforeach

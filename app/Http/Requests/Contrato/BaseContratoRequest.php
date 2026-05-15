@@ -21,7 +21,7 @@ abstract class BaseContratoRequest extends FormRequest
             'itens' => ['required', 'array', 'min:1'],
             'itens.*.servico_id' => ['required', 'exists:servicos,id'],
             'itens.*.quantidade' => ['required', 'integer', 'min:1'],
-            'itens.*.valor' => ['required', 'numeric', 'min:0'],
+            'itens.*.valor_unitario' => ['required', 'numeric', 'min:0'],
         ];
     }
 
@@ -64,11 +64,11 @@ abstract class BaseContratoRequest extends FormRequest
             'itens.*.quantidade.min' => 'A quantidade deve ser no mínimo 1.',
 
             // valor
-            'itens.*.valor.required' => 'Informe o valor unitário.',
+            'itens.*.valor_unitario.required' => 'Informe o valor unitário.',
 
-            'itens.*.valor.numeric' => 'O valor unitário deve ser numérico.',
+            'itens.*.valor_unitario.numeric' => 'O valor unitário deve ser numérico.',
 
-            'itens.*.valor.min' => 'O valor unitário não pode ser negativo.',
+            'itens.*.valor_unitario.min' => 'O valor unitário não pode ser negativo.',
         ];
     }
 }

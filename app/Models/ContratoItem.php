@@ -13,7 +13,7 @@ class ContratoItem extends Model
         'contrato_id',
         'servico_id',
         'quantidade',
-        'valor',
+        'valor_unitario',
     ];
 
     public function contrato(): BelongsTo

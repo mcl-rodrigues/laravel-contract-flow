@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->foreignId('contrato_id')->constrained('contratos')->cascadeOnDelete();
             $table->foreignId('servico_id')->constrained('servicos');
             $table->integer('quantidade');
-            $table->decimal('valor', 10, 2);
+            $table->decimal('valor_unitario', 10, 2);
             $table->timestamps();
         });
     }
