@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Contrato extends Model
 {
     protected $table = 'contratos';
+    private const DESCONTO_PERCENTUAL = 0.10;
+    private const QUANTIDADE_MINIMA_DESCONTO = 5;
 
     protected $fillable = [
         'cliente_id',
@@ -38,8 +40,8 @@ class Contrato extends Model
     {
         $quantidadeTotal = $this->itens->sum('quantidade');
 
-        if ($quantidadeTotal >= 5) {
-            return $this->calcularSubtotal() * 0.10;
+        if ($quantidadeTotal >= self::QUANTIDADE_MINIMA_DESCONTO) {
+            return $this->calcularSubtotal() * self::DESCONTO_PERCENTUAL;
         }
 
         return 0;
