@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Contrato;
 use App\Models\Cliente;
+use App\Models\Servico;
 use Illuminate\Http\Request;
+use App\Services\ContratoService;
 
 class ContratoController extends Controller
 {
@@ -27,19 +29,36 @@ class ContratoController extends Controller
             ->orderBy('nome')
             ->get();
 
-        return view('contratos.create', compact('clientes'));
+        $servicos = Servico::orderBy('nome')->get();
+
+        return view('contratos.create', compact(['clientes', 'servicos']));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, ContratoService $contratoService)
     {
         $validated = $request->validate([
             'cliente' => ['required', 'exists:clientes,id'],
             'data_inicio' => ['required', 'date'],
             'data_fim' => ['nullable', 'date', 'after_or_equal:data_inicio'],
             'status' => ['required', 'in:0,1'],
+            'itens' => ['required', 'array', 'min:1'],
+            'itens.*.servico_id' => [
+                'required',
+                'exists:servicos,id'
+            ],
+            'itens.*.quantidade' => [
+                'required',
+                'integer',
+                'min:1'
+            ],
+            'itens.*.valor' => [
+                'required',
+                'numeric',
+                'min:0'
+            ],
         ], [
             // cliente
             'cliente.required' => 'O cliente é obrigatório.',
@@ -56,14 +75,28 @@ class ContratoController extends Controller
             // status
             'status.required' => 'O status é obrigatório.',
             'status.in' => 'Status inválido. Escolha Ativo ou Inativo.',
+
+            // itens
+            'itens.required' => 'Adicione pelo menos um serviço ao contrato.',
+            'itens.array' => 'Os serviços enviados são inválidos.',
+            'itens.min' => 'Adicione pelo menos um serviço ao contrato.',
+
+            // itens.serviço
+            'itens.*.servico_id.required' => 'Selecione um serviço.',
+            'itens.*.servico_id.exists' => 'O serviço selecionado é inválido.',
+
+            // itens.quantidade
+            'itens.*.quantidade.required' => 'Informe a quantidade.',
+            'itens.*.quantidade.integer' => 'A quantidade deve ser um número inteiro.',
+            'itens.*.quantidade.min' => 'A quantidade deve ser no mínimo 1.',
+
+            // itens.valor
+            'itens.*.valor.required' => 'Informe o valor unitário.',
+            'itens.*.valor.numeric' => 'O valor unitário deve ser numérico.',
+            'itens.*.valor.min' => 'O valor unitário não pode ser negativo.',
         ]);
 
-        Contrato::create([
-            'cliente_id' => $validated['cliente'],
-            'data_inicio' => $validated['data_inicio'],
-            'data_fim' => $validated['data_fim'],
-            'status' => $validated['status'],
-        ]);
+        $contratoService->create($validated);
 
         return redirect()
             ->route('contratos.index')

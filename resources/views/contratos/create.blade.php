@@ -12,6 +12,7 @@
             <div id="app">
                 <contrato-form
                     :clientes='@json($clientes)'
+                    :servicos='@json($servicos)'
                     action="{{ route('contratos.store') }}"
                 />
             </div>

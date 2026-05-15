@@ -1,26 +1,32 @@
 <?php
 
+namespace App\Services;
+
 use App\Models\Contrato;
+use Illuminate\Support\Facades\DB;
 
 class ContratoService
 {
-    public function create(array $data)
+    public function create(array $data): Contrato
     {
-        $contrato = Contrato::create([
-            'cliente_id' => $data['cliente_id'],
-            'data_inicio' => $data['data_inicio'],
-            'data_fim' => $data['data_fim'] ?? null,
-            'status' => $data['status']
-        ]);
+        return DB::transaction(function () use ($data) {
 
-        foreach ($data['itens'] as $item) {
-            $contrato->itens()->create([
-                'servico_id' => $item['servico_id'],
-                'quantidade' => $item['quantidade'],
-                'valor' => $item['valor']
+            $contrato = Contrato::create([
+                'cliente_id' => $data['cliente'],
+                'data_inicio' => $data['data_inicio'],
+                'data_fim' => $data['data_fim'] ?? null,
+                'status' => $data['status'],
             ]);
-        }
 
-        return $contrato;
+            foreach ($data['itens'] as $item) {
+                $contrato->itens()->create([
+                    'servico_id' => $item['servico_id'],
+                    'quantidade' => $item['quantidade'],
+                    'valor' => $item['valor']
+                ]);
+            }
+
+            return $contrato;
+        });
     }
 }

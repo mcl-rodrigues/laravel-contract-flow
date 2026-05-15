@@ -3,6 +3,7 @@ import { ref, reactive, computed } from 'vue'
 
 const props = defineProps({
     clientes: Array,
+    servicos: Array,
     action: String,
 })
 
@@ -17,7 +18,8 @@ const form = reactive({
     cliente: '',
     data_inicio: '',
     data_fim: '',
-    status: 1
+    status: 1,
+    itens: []
 })
 
 const handleSubmit = async () => {
@@ -44,6 +46,28 @@ const handleSubmit = async () => {
         if (response.status === 422 && data?.errors) {
             errors.value = data.errors
         }
+    }
+}
+
+const adicionarItem = () => {
+    form.itens.push({
+        servico_id: '',
+        quantidade: 1,
+        valor: ''
+    })
+}
+
+const removerItem = (index) => {
+    form.itens.splice(index, 1)
+}
+
+const atualizarValor = (item) => {
+    const servicoSelecionado = props.servicos.find(
+        servico => servico.id == item.servico_id
+    )
+
+    if (servicoSelecionado) {
+        item.valor = servicoSelecionado.valor_base
     }
 }
 </script>
@@ -126,6 +150,98 @@ const handleSubmit = async () => {
                 class="mt-1 text-sm text-red-600"
             >
                 O cliente é obrigatório.
+            </div>
+        </div>
+        <!-- ITEM DO CONTRATO -->
+        <div class="space-y-4">
+            <div class="flex justify-between items-center">
+                <h3 class="font-medium">
+                    Serviços do contrato
+                </h3>
+                <button
+                    type="button"
+                    @click="adicionarItem"
+                    class="rounded bg-green-600 px-3 py-2 text-white"
+                >
+                    + Adicionar serviço
+                </button>
+            </div>
+            <div
+                v-if="errors.itens"
+                class="mt-2 text-sm text-red-600"
+            >
+                {{ errors.itens[0] }}
+            </div>
+            <div
+                v-for="(item, index) in form.itens"
+                :key="index"
+                class="border rounded p-4 space-y-3"
+            >
+                <label class="mb-1 block text-sm font-medium text-gray-700">
+                    Serviço
+                </label>
+                <select
+                    v-model="item.servico_id"
+                    class="w-full rounded border px-4 py-2"
+                    :class="{'border-red-500': errors[`itens.${index}.servico_id`]}"
+                    @change="atualizarValor(item)"
+                >
+                    <option value="">
+                        Selecione um serviço
+                    </option>
+                    <option
+                        v-for="servico in servicos"
+                        :key="servico.id"
+                        :value="servico.id"
+                    >
+                        {{ servico.nome }}
+                    </option>
+                </select>
+                <div
+                    v-if="errors[`itens.${index}.servico_id`]"
+                    class="mt-1 text-sm text-red-600"
+                >
+                    {{ errors[`itens.${index}.servico_id`][0] }}
+                </div>
+                <label class="mb-1 block text-sm font-medium text-gray-700">
+                    Quantidade
+                </label>
+                <input
+                    v-model="item.quantidade"
+                    type="number"
+                    min="1"
+                    class="w-full rounded border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
+                    :class="{'border-red-500': errors[`itens.${index}.quantidade`]}"
+                />
+                <div
+                    v-if="errors[`itens.${index}.quantidade`]"
+                    class="mt-1 text-sm text-red-600"
+                >
+                    {{ errors[`itens.${index}.quantidade`][0] }}
+                </div>
+                <label class="mb-1 block text-sm font-medium text-gray-700">
+                    Valor
+                </label>
+                <input
+                    v-model="item.valor"
+                    type="number"
+                    min="0"
+                    class="w-full rounded border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
+                    :class="{'border-red-500': errors[`itens.${index}.valor`]}"
+                />
+                <div
+                    v-if="errors[`itens.${index}.valor`]"
+                    class="mt-1 text-sm text-red-600"
+                >
+                    {{ errors[`itens.${index}.valor`][0] }}
+                </div>
+                <button
+                    type="button"
+                    @click="removerItem(index)"
+                    class="rounded bg-red-600 px-3 py-2 text-white"
+                >
+                    Remover
+                </button>
             </div>
         </div>
         <div class="flex justify-end gap-2">
