@@ -3,12 +3,19 @@
 namespace App\Services;
 
 use App\Models\Contrato;
+use App\Models\Cliente;
 use Illuminate\Support\Facades\DB;
 
 class ContratoService
 {
     public function create(array $data): Contrato
     {
+        $cliente = Cliente::findOrFail($data['cliente']);
+
+        if (!$cliente->status) {
+            throw new \Exception('Clientes inativos não podem ter novos contratos.');
+        }
+
         return DB::transaction(function () use ($data) {
 
             $contrato = Contrato::create([

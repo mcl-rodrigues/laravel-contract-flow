@@ -9,6 +9,7 @@ use App\Models\Cliente;
 use App\Models\Contrato;
 use App\Models\ContratoItem;
 use App\Models\Servico;
+use App\Services\ContratoService;
 
 class ContratoTest extends TestCase
 {
@@ -114,5 +115,59 @@ class ContratoTest extends TestCase
         ]);
 
         $this->assertEquals(400, $contrato->valor_total);
+    }
+
+    public function test_nao_permite_acessar_edicao_de_contrato_cancelado(): void
+    {
+        $cliente = Cliente::create([
+            'nome' => 'João Silva',
+            'documento' => '12345678900',
+            'email' => 'joãosilva@email.com',
+            'status' => true,
+        ]);
+
+        $contrato = Contrato::create([
+            'cliente_id' => $cliente->id,
+            'data_inicio' => now(),
+            'status' => 'cancelado',
+        ]);
+
+        $response = $this->get("/contratos/{$contrato->id}/edit");
+
+        $response->assertRedirect('/contratos');
+
+        $response->assertSessionHas('error');
+    }
+
+    public function test_nao_permite_criar_contrato_para_cliente_inativo(): void
+    {
+        $cliente = Cliente::create([
+            'nome' => 'João Silva',
+            'documento' => '12345678900',
+            'email' => 'joaosilva@email.com',
+            'status' => false,
+        ]);
+
+        $servico = Servico::create([
+            'nome' => 'Servico Teste',
+            'valor_base' => 100,
+        ]);
+
+        $service = new ContratoService();
+
+        $this->expectException(\Exception::class);
+
+        $service->create([
+            'cliente' => $cliente->id,
+            'data_inicio' => now(),
+            'status' => 'ativo',
+            'itens' => [
+                [
+                    'servico_id' => $servico->id,
+                    'quantidade' => 1,
+                    'valor_unitario' => 100,
+                ]
+            ],
+        ]);
     }
 }
