@@ -2,6 +2,9 @@
 
 Sistema desenvolvido como desafio técnico Full Stack, simulando um mini ERP de contratos recorrentes para gestão de clientes, contratos e serviços recorrentes.
 
+📄 Mais detalhes sobre as decisões técnicas e estrutura do projeto:
+[Ver documento técnico](./docs/TECHNICAL_DOCUMENTATION.md)
+
 O projeto foi construído com foco em:
 
 * organização de código
