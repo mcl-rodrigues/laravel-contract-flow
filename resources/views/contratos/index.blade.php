@@ -63,13 +63,13 @@
                                 {{ $contrato->data_fim ? \Carbon\Carbon::parse($contrato->data_fim)->format('d/m/Y') : '-' }}
                             </td>
                             <td class="px-6 py-4">
-                                @if ($contrato->status)
+                                @if ($contrato->status === 'ativo')
                                     <span class="rounded bg-green-100 px-2 py-1 text-xs font-medium text-green-700">
                                         Ativo
                                     </span>
                                 @else
                                     <span class="rounded bg-red-100 px-2 py-1 text-xs font-medium text-red-700">
-                                        Inativo
+                                        Cancelado
                                     </span>
                                 @endif
                             </td>
@@ -107,7 +107,7 @@
                                             Expandir
                                         </span>
                                     </button>
-                                    @if ($contrato->status)
+                                    @if ($contrato->status === 'ativo')
                                         <a
                                             href="{{ route('contratos.edit', $contrato->id) }}"
                                             class="rounded bg-yellow-500 px-3 py-1 text-sm text-white hover:bg-yellow-600"

@@ -29,4 +29,3 @@ class ClienteSeeder extends Seeder
         Cliente::create(['nome' => 'Quantum Networks', 'documento' => '99999999000199', 'email' => 'contato@quantum.com', 'status' => true]);
     }
 }
-
