@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Servico;
-use Illuminate\Http\Request;
+use App\Http\Requests\Servico\StoreServicoRequest;
+use App\Http\Requests\Servico\UpdateServicoRequest;
 
 class ServicoController extends Controller
 {
@@ -28,22 +29,9 @@ class ServicoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreServicoRequest $request)
     {
-        $validated = $request->validate([
-            'nome' => ['required', 'string', 'min:3', 'max:50'],
-            'valor_base' => 'required|numeric',
-        ], [
-            // nome
-            'nome.required' => 'O nome do serviço é obrigatório.',
-            'nome.string' => 'O nome do serviço deve ser um texto válido.',
-            'nome.min' => 'O nome do serviço não pode ter menos de 3 caracteres.',
-            'nome.max' => 'O nome do serviço não pode ter mais de 50 caracteres.',
-
-            // valor base
-            'valor_base.required' => 'O valor base é obrigatório.',
-            'valor_base.numeric' => 'O valor base deve ser numérico.',
-        ]);
+        $validated = $request->validated();
 
         Servico::create($validated);
 
@@ -71,22 +59,9 @@ class ServicoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Servico $servico)
+    public function update(UpdateServicoRequest $request, Servico $servico)
     {
-        $validated = $request->validate([
-            'nome' => ['required', 'string', 'min:3', 'max:50'],
-            'valor_base' => 'required|numeric',
-        ], [
-            // nome
-            'nome.required' => 'O nome do serviço é obrigatório.',
-            'nome.string' => 'O nome do serviço deve ser um texto válido.',
-            'nome.min' => 'O nome do serviço não pode ter menos de 3 caracteres.',
-            'nome.max' => 'O nome do serviço não pode ter mais de 50 caracteres.',
-
-            // valor base
-            'valor_base.required' => 'O valor base é obrigatório.',
-            'valor_base.numeric' => 'O valor base deve ser numérico.',
-        ]);
+        $validated = $request->validated();
 
         $servico->update($validated);
 
