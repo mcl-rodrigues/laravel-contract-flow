@@ -89,6 +89,9 @@ const atualizarValor = (item) => {
 
 <template>
     <form @submit.prevent="handleSubmit" class="space-y-6">
+        <div class="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800">
+            Contratos com 5 ou mais serviços recebem 10% de desconto automático no valor total.
+        </div>
         <input type="hidden" name="_token" :value="csrf" />
         <div>
             <label class="mb-1 block text-sm font-medium text-gray-700">

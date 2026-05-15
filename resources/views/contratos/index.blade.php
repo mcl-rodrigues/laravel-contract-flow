@@ -75,6 +75,11 @@
                             </td>
                             <td class="px-6 py-4 font-medium text-gray-900">
                                 R$ {{ number_format($contrato->valor_total, 2, ',', '.') }}
+                                @if ($contrato->calcularDesconto() > 0)
+                                    <div class="mt-1 text-xs font-medium text-green-600">
+                                        Desconto de 10% aplicado
+                                    </div>
+                                @endif
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <div class="flex justify-end gap-2">

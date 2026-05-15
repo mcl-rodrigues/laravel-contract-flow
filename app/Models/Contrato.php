@@ -27,10 +27,26 @@ class Contrato extends Model
         return $this->hasMany(ContratoItem::class);
     }
 
-    public function getValorTotalAttribute()
+    public function calcularSubtotal()
     {
         return $this->itens->sum(function ($item) {
             return $item->quantidade * $item->valor;
         });
+    }
+
+    public function calcularDesconto()
+    {
+        $quantidadeTotal = $this->itens->sum('quantidade');
+
+        if ($quantidadeTotal >= 5) {
+            return $this->calcularSubtotal() * 0.10;
+        }
+
+        return 0;
+    }
+
+    public function getValorTotalAttribute()
+    {
+        return $this->calcularSubtotal() - $this->calcularDesconto();
     }
 }
