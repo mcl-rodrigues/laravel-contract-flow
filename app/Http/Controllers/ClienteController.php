@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
-use Illuminate\Http\Request;
+use App\Http\Requests\Cliente\StoreClienteRequest;
+use App\Http\Requests\Cliente\UpdateClienteRequest;
 
 class ClienteController extends Controller
 {
@@ -28,35 +29,9 @@ class ClienteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreClienteRequest $request)
     {
-        $validated = $request->validate([
-            'nome' => ['required', 'string', 'min:3', 'max:50'],
-            'documento' => ['required', 'regex:/^(\d{11}|\d{14})$/', 'unique:clientes,documento'],
-            'email' => ['required', 'email', 'max:50', 'unique:clientes,email'],
-            'status' => ['required', 'in:0,1'],
-        ], [
-            // nome
-            'nome.required' => 'O nome é obrigatório.',
-            'nome.string' => 'O nome deve ser um texto válido.',
-            'nome.min' => 'O nome não pode ter menos de 3 caracteres.',
-            'nome.max' => 'O nome não pode ter mais de 50 caracteres.',
-
-            // documento
-            'documento.required' => 'O documento é obrigatório.',
-            'documento.regex' => 'O documento deve conter 11 dígitos (CPF) ou 14 dígitos (CNPJ).',
-            'documento.unique' => 'Este documento já está cadastrado.',
-
-            // email
-            'email.required' => 'O e-mail é obrigatório.',
-            'email.email' => 'Informe um e-mail válido.',
-            'email.max' => 'O e-mail não pode ter mais de 50 caracteres.',
-            'email.unique' => 'Este e-mail já está cadastrado.',
-
-            // status
-            'status.required' => 'O status é obrigatório.',
-            'status.in' => 'Status inválido. Escolha Ativo ou Inativo.',
-        ]);
+        $validated = $request->validated();
 
         Cliente::create($validated);
 
@@ -84,30 +59,9 @@ class ClienteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Cliente $cliente)
+    public function update(UpdateClienteRequest $request, Cliente $cliente)
     {
-        $validated = $request->validate([
-            'nome' => ['required', 'string', 'min:3', 'max:50'],
-            'documento' => ['required', 'regex:/^(\d{11}|\d{14})$/', 'unique:clientes,documento,' . $cliente->id],
-            'email' => ['required', 'email', 'max:50', 'unique:clientes,email,' . $cliente->id],
-            'status' => ['required', 'in:0,1'],
-        ], [
-            'nome.required' => 'O nome é obrigatório.',
-            'nome.string' => 'O nome deve ser um texto válido.',
-            'nome.max' => 'O nome não pode ter mais de 50 caracteres.',
-
-            'documento.required' => 'O documento é obrigatório.',
-            'documento.regex' => 'O documento deve conter 11 dígitos (CPF) ou 14 dígitos (CNPJ).',
-            'documento.unique' => 'Este documento já está cadastrado.',
-
-            'email.required' => 'O e-mail é obrigatório.',
-            'email.email' => 'Informe um e-mail válido.',
-            'email.max' => 'O e-mail não pode ter mais de 50 caracteres.',
-            'email.unique' => 'Este e-mail já está cadastrado.',
-
-            'status.required' => 'O status é obrigatório.',
-            'status.in' => 'Status inválido. Escolha Ativo ou Inativo.',
-        ]);
+        $validated = $request->validated();
 
         $cliente->update($validated);
 
