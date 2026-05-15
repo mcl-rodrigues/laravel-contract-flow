@@ -64,6 +64,12 @@ class ContratoController extends Controller
      */
     public function edit(Contrato $contrato)
     {
+        if ($contrato->status === 'cancelado') {
+            return redirect()
+                ->route('contratos.index')
+                ->with('error', 'Contratos cancelados não podem ser editados.');
+        }
+
         $contrato->load('itens');
 
         return view('contratos.edit', [
