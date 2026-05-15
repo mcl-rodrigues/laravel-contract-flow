@@ -341,6 +341,32 @@ O projeto possui seeders para facilitar testes e demonstração das funcionalida
 
 ---
 
+# 📸 Screenshots
+
+## Dashboard
+
+<a href="./docs/screenshots/dashboard.jpg">
+  <img src="./docs/screenshots/dashboard.jpg" width="350">
+</a>
+
+---
+
+## Contratos
+
+<a href="./docs/screenshots/contracts-list.jpg">
+  <img src="./docs/screenshots/contracts-list.jpg" width="350">
+</a>
+
+---
+
+## Formulário de Contrato
+
+<a href="./docs/screenshots/contract-form.jpg">
+  <img src="./docs/screenshots/contract-form.jpg" width="350">
+</a>
+
+---
+
 # 📄 Licença
 
 Projeto desenvolvido exclusivamente para fins de avaliação técnica.
